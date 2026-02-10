@@ -10,6 +10,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [showCopied, setShowCopied] = useState(false);
   const [error, setError] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
@@ -43,7 +44,11 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8 relative overflow-hidden">
+    <div className={`min-h-screen p-8 relative overflow-hidden transition-colors duration-500 ${
+        isDarkMode
+          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'
+          : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
+      }`}>
       {/* Animated background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -55,28 +60,58 @@ export default function Home() {
       <div className="relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12 backdrop-blur-sm bg-white/30 rounded-2xl p-8 shadow-lg border border-white/50">
+          <div className={`text-center mb-12 rounded-2xl p-8 shadow-lg border ${
+              isDarkMode 
+                ? 'bg-gray-800/95 border-gray-700' 
+                : 'bg-white/95 border-white/50'
+            }`}>
+            {/* Dark Mode Toggle - Top Right */}
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all ${
+                  isDarkMode
+                    ? 'bg-gray-700 text-yellow-300 hover:bg-gray-600'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                aria-label="Toggle dark mode"
+              >
+                <span className="text-xl">{isDarkMode ? '☀️' : '🌙'}</span>
+                <span className="text-sm">{isDarkMode ? 'Light' : 'Dark'}</span>
+              </button>
+            </div>
+
             <div className="inline-block mb-4">
               <span className="text-6xl">⚡</span>
             </div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+            <h1 className={`text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3`}>
               AI Component Generator
             </h1>
-            <p className="text-xl text-gray-700 font-medium">
+            <p className={`text-xl font-medium transition-colors ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               Describe a component and get accessible React code instantly
             </p>
-            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-600">
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">TypeScript</span>
-              <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-medium">Tailwind CSS</span>
-              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full font-medium">Accessible</span>
+            <div className="mt-4 flex items-center justify-center gap-2 text-sm">
+              <span className={`px-3 py-1 rounded-full font-medium ${
+                isDarkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-700'
+              }`}>TypeScript</span>
+              <span className={`px-3 py-1 rounded-full font-medium ${
+                isDarkMode ? 'bg-purple-900 text-purple-200' : 'bg-purple-100 text-purple-700'
+              }`}>Tailwind CSS</span>
+              <span className={`px-3 py-1 rounded-full font-medium ${
+                isDarkMode ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-700'
+              }`}>Accessible</span>
             </div>
           </div>
 
           {/* Example Prompts Section */}
           <div className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4 text-center">
-              ✨ Try these examples or describe your own component
-            </h2>
+          <h2 className={`text-lg font-semibold mb-4 text-center transition-colors ${
+              isDarkMode ? 'text-gray-200' : 'text-gray-700'
+            }`}>
+            ✨ Try these examples or describe your own component
+          </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Example Card 1 - Button */}
               <button
@@ -148,7 +183,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* Input Section */}
-            <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-6 border border-white/50 hover:shadow-2xl transition-shadow duration-300">
+            <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <label className="block text-sm font-semibold text-gray-700">
                   Describe Your Component
@@ -163,7 +198,7 @@ export default function Home() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 maxLength={500}
-                className="w-full h-48 p-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-500 placeholder:text-sm"
+                className="w-full h-48 p-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-600 placeholder:text-sm text-gray-600"
                 placeholder="Example: A pricing card with three tiers - Basic, Pro, and Enterprise. Each tier should have a title, price, feature list, and a call-to-action button."
               />
               
@@ -193,7 +228,7 @@ export default function Home() {
             </div>
 
             {/* Output Section */}
-            <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-6 border border-white/50 hover:shadow-2xl transition-shadow duration-300">
+            <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <label className="block text-sm font-semibold text-gray-700">
                   Generated Code
