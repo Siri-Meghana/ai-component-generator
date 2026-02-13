@@ -198,7 +198,7 @@ export default function Home() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 maxLength={500}
-                className="w-full h-48 p-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-600 placeholder:text-sm text-gray-600"
+                className="w-full h-70 p-4 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-600 placeholder:text-sm text-gray-600"
                 placeholder="Example: A pricing card with three tiers - Basic, Pro, and Enterprise. Each tier should have a title, price, feature list, and a call-to-action button."
               />
               
@@ -331,3 +331,4 @@ export default function Home() {
     </div> 
   );
 }
+
